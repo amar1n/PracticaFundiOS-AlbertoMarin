@@ -21,9 +21,9 @@ extension NSBundle {
 
 extension NSUserDefaults {
     
-    func indexPathForKey(key: String) -> NSIndexPath {
+    func indexPathForKey(key: String) -> NSIndexPath? {
         guard let indexArray = arrayForKey(key) as? [Int] else {
-            return NSIndexPath(forRow: 0, inSection: 0)
+            return nil
         }
         return NSIndexPath(forRow: indexArray[0], inSection: indexArray[1])
     }
