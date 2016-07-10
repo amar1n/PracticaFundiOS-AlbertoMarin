@@ -30,11 +30,8 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     //MARK: - Syncing
     func syncModelWithView() {
         authorsView.text = "de \(model.authors.joinWithSeparator(", "))"
-        
         tagsView.text = "Etiquetas: \(model.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
-        
         coverView.image = model.coverImage.image
-        
         title = model.title
     }
     

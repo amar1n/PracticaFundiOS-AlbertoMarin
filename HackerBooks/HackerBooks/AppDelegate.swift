@@ -13,6 +13,7 @@ Vainas que me faltan...
  2) Ordenación Tags/Alphabetically
  3) Celda personalizada
  4) En JSONProcessing tengo que getLibraryFromRemote de manera asíncrona
+ 5) En BookViewController pasa algo, porque no se me refresca inmediatamente la imagen del libro
 */
 
 import UIKit
