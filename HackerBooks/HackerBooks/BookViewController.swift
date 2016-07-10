@@ -9,13 +9,6 @@
 import UIKit
 
 class BookViewController: UIViewController, LibraryTableViewControllerDelegate, UISplitViewControllerDelegate {
-    //    {
-    //    "authors": "Scott Chacon, Ben Straub",
-    //    "image_url": "http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg",
-    //    "pdf_url": "https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf",
-    //    "tags": "version control, git",
-    //    "title": "Pro Git"
-    //    }
     
     //MARK: - Properties
     @IBOutlet weak var authorsView: UILabel!
@@ -34,6 +27,7 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Syncing
     func syncModelWithView() {
         authorsView.text = "de \(model.authors.joinWithSeparator(", "))"
         
@@ -63,7 +57,7 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
         
         // Alta en notificacion
         let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(bookDidChange), name: AsyncImageDidChangeNotification, object: nil)
+        nc.addObserver(self, selector: #selector(imageDidChange), name: AsyncImageDidChangeNotification, object: nil)
         
         syncModelWithView()
     }
@@ -77,7 +71,7 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     }
     
     //MARK: - Utilities
-    func bookDidChange(notification: NSNotification) {
+    func imageDidChange(notification: NSNotification) {
         // Sincronizar las vistas
         syncModelWithView()
     }
