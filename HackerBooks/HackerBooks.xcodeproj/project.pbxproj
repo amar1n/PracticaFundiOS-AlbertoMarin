@@ -1,0 +1,378 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D34CADD41D2AFA030074C1C0 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CADD31D2AFA030074C1C0 /* Foundation.swift */; };
+		D3829F571D2A720B007D3ED9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F561D2A720B007D3ED9 /* AppDelegate.swift */; };
+		D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3829F5D1D2A720B007D3ED9 /* Assets.xcassets */; };
+		D3829F611D2A720B007D3ED9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3829F5F1D2A720B007D3ED9 /* LaunchScreen.storyboard */; };
+		D3829F6C1D2A7811007D3ED9 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F6B1D2A7811007D3ED9 /* Book.swift */; };
+		D3829F6E1D2A93E1007D3ED9 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F6D1D2A93E1007D3ED9 /* Library.swift */; };
+		D3829F731D2AAE73007D3ED9 /* JSONProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F721D2AAE73007D3ED9 /* JSONProcessing.swift */; };
+		D3829F751D2AAEC5007D3ED9 /* LibraryErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F741D2AAEC5007D3ED9 /* LibraryErrors.swift */; };
+		D3DEC1F91D2C38F4001C190E /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC1F81D2C38F4001C190E /* Tag.swift */; };
+		D3DEC1FB1D2C5CAD001C190E /* LibraryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC1FA1D2C5CAD001C190E /* LibraryTableViewController.swift */; };
+		D3DEC2001D2F0EEF001C190E /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC1FE1D2F0EEF001C190E /* BookViewController.swift */; };
+		D3DEC2011D2F0EEF001C190E /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DEC1FF1D2F0EEF001C190E /* BookViewController.xib */; };
+		D3DEC20B1D300E19001C190E /* noImage.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DEC2091D300E19001C190E /* noImage.png */; };
+		D3DEC20D1D30110B001C190E /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC20C1D30110B001C190E /* AsyncImage.swift */; };
+		D3DEC2121D315B6D001C190E /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC2101D315B6D001C190E /* PDFViewController.swift */; };
+		D3DEC2131D315B6D001C190E /* PDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DEC2111D315B6D001C190E /* PDFViewController.xib */; };
+		D3DEC2171D3288A9001C190E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEC2161D3288A9001C190E /* Constants.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D34CADD31D2AFA030074C1C0 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
+		D3829F531D2A720B007D3ED9 /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3829F561D2A720B007D3ED9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3829F5D1D2A720B007D3ED9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3829F601D2A720B007D3ED9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D3829F621D2A720B007D3ED9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3829F6B1D2A7811007D3ED9 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		D3829F6D1D2A93E1007D3ED9 /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		D3829F721D2AAE73007D3ED9 /* JSONProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONProcessing.swift; sourceTree = "<group>"; };
+		D3829F741D2AAEC5007D3ED9 /* LibraryErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryErrors.swift; sourceTree = "<group>"; };
+		D3DEC1F81D2C38F4001C190E /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		D3DEC1FA1D2C5CAD001C190E /* LibraryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryTableViewController.swift; sourceTree = "<group>"; };
+		D3DEC1FE1D2F0EEF001C190E /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
+		D3DEC1FF1D2F0EEF001C190E /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
+		D3DEC2091D300E19001C190E /* noImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noImage.png; sourceTree = "<group>"; };
+		D3DEC20C1D30110B001C190E /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		D3DEC2101D315B6D001C190E /* PDFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		D3DEC2111D315B6D001C190E /* PDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDFViewController.xib; sourceTree = "<group>"; };
+		D3DEC2161D3288A9001C190E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D3829F501D2A720B007D3ED9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D34CADD21D2AF9D40074C1C0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D34CADD31D2AFA030074C1C0 /* Foundation.swift */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3829F4A1D2A720B007D3ED9 = {
+			isa = PBXGroup;
+			children = (
+				D3829F551D2A720B007D3ED9 /* HackerBooks */,
+				D3829F541D2A720B007D3ED9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D3829F541D2A720B007D3ED9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3829F531D2A720B007D3ED9 /* HackerBooks.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3829F551D2A720B007D3ED9 /* HackerBooks */ = {
+			isa = PBXGroup;
+			children = (
+				D3DEC2071D300D34001C190E /* Resources */,
+				D34CADD21D2AF9D40074C1C0 /* Frameworks */,
+				D3829F681D2A727A007D3ED9 /* App */,
+				D3829F561D2A720B007D3ED9 /* AppDelegate.swift */,
+				D3829F5D1D2A720B007D3ED9 /* Assets.xcassets */,
+				D3829F5F1D2A720B007D3ED9 /* LaunchScreen.storyboard */,
+				D3829F621D2A720B007D3ED9 /* Info.plist */,
+			);
+			path = HackerBooks;
+			sourceTree = "<group>";
+		};
+		D3829F681D2A727A007D3ED9 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D3829F6A1D2A74D9007D3ED9 /* Controllers */,
+				D3829F691D2A7287007D3ED9 /* Models */,
+				D3DEC2161D3288A9001C190E /* Constants.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		D3829F691D2A7287007D3ED9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D3829F741D2AAEC5007D3ED9 /* LibraryErrors.swift */,
+				D3829F721D2AAE73007D3ED9 /* JSONProcessing.swift */,
+				D3829F6B1D2A7811007D3ED9 /* Book.swift */,
+				D3829F6D1D2A93E1007D3ED9 /* Library.swift */,
+				D3DEC1F81D2C38F4001C190E /* Tag.swift */,
+				D3DEC20C1D30110B001C190E /* AsyncImage.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		D3829F6A1D2A74D9007D3ED9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D3DEC1FA1D2C5CAD001C190E /* LibraryTableViewController.swift */,
+				D3DEC1FE1D2F0EEF001C190E /* BookViewController.swift */,
+				D3DEC1FF1D2F0EEF001C190E /* BookViewController.xib */,
+				D3DEC2101D315B6D001C190E /* PDFViewController.swift */,
+				D3DEC2111D315B6D001C190E /* PDFViewController.xib */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D3DEC2071D300D34001C190E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D3DEC2091D300E19001C190E /* noImage.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D3829F521D2A720B007D3ED9 /* HackerBooks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3829F651D2A720B007D3ED9 /* Build configuration list for PBXNativeTarget "HackerBooks" */;
+			buildPhases = (
+				D3829F4F1D2A720B007D3ED9 /* Sources */,
+				D3829F501D2A720B007D3ED9 /* Frameworks */,
+				D3829F511D2A720B007D3ED9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HackerBooks;
+			productName = HackerBooks;
+			productReference = D3829F531D2A720B007D3ED9 /* HackerBooks.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D3829F4B1D2A720B007D3ED9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Alberto Marín García";
+				TargetAttributes = {
+					D3829F521D2A720B007D3ED9 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = D3829F4E1D2A720B007D3ED9 /* Build configuration list for PBXProject "HackerBooks" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D3829F4A1D2A720B007D3ED9;
+			productRefGroup = D3829F541D2A720B007D3ED9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D3829F521D2A720B007D3ED9 /* HackerBooks */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3829F511D2A720B007D3ED9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DEC2131D315B6D001C190E /* PDFViewController.xib in Resources */,
+				D3829F611D2A720B007D3ED9 /* LaunchScreen.storyboard in Resources */,
+				D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */,
+				D3DEC20B1D300E19001C190E /* noImage.png in Resources */,
+				D3DEC2011D2F0EEF001C190E /* BookViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D3829F4F1D2A720B007D3ED9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DEC20D1D30110B001C190E /* AsyncImage.swift in Sources */,
+				D3DEC2121D315B6D001C190E /* PDFViewController.swift in Sources */,
+				D3DEC1F91D2C38F4001C190E /* Tag.swift in Sources */,
+				D34CADD41D2AFA030074C1C0 /* Foundation.swift in Sources */,
+				D3829F6C1D2A7811007D3ED9 /* Book.swift in Sources */,
+				D3829F751D2AAEC5007D3ED9 /* LibraryErrors.swift in Sources */,
+				D3829F571D2A720B007D3ED9 /* AppDelegate.swift in Sources */,
+				D3829F731D2AAE73007D3ED9 /* JSONProcessing.swift in Sources */,
+				D3DEC2001D2F0EEF001C190E /* BookViewController.swift in Sources */,
+				D3DEC1FB1D2C5CAD001C190E /* LibraryTableViewController.swift in Sources */,
+				D3829F6E1D2A93E1007D3ED9 /* Library.swift in Sources */,
+				D3DEC2171D3288A9001C190E /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D3829F5F1D2A720B007D3ED9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3829F601D2A720B007D3ED9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D3829F631D2A720B007D3ED9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3829F641D2A720B007D3ED9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D3829F661D2A720B007D3ED9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = HackerBooks/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.amarin.HackerBooks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D3829F671D2A720B007D3ED9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_TESTABILITY = NO;
+				INFOPLIST_FILE = HackerBooks/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.amarin.HackerBooks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D3829F4E1D2A720B007D3ED9 /* Build configuration list for PBXProject "HackerBooks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3829F631D2A720B007D3ED9 /* Debug */,
+				D3829F641D2A720B007D3ED9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3829F651D2A720B007D3ED9 /* Build configuration list for PBXNativeTarget "HackerBooks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3829F661D2A720B007D3ED9 /* Debug */,
+				D3829F671D2A720B007D3ED9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D3829F4B1D2A720B007D3ED9 /* Project object */;
+}
