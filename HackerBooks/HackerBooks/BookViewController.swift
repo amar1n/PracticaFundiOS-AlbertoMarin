@@ -29,6 +29,7 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     
     //MARK: - Syncing
     func syncModelWithView() {
+        print("......................................BookViewController.syncModelWithView")
         authorsView.text = "de \(model.authors.joinWithSeparator(", "))"
         tagsView.text = "Etiquetas: \(model.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
         coverView.image = model.coverImage.image
@@ -69,6 +70,7 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     
     //MARK: - Utilities
     func imageDidChange(notification: NSNotification) {
+        print("......................................BookViewController.imageDidChange")
         // Sincronizar las vistas
         syncModelWithView()
     }
