@@ -12,8 +12,6 @@ Vainas que me faltan...
  1) Favoritos
  2) Ordenación Tags/Alphabetically
  3) Celda personalizada
- 4) En JSONProcessing tengo que getLibraryFromRemote de manera asíncrona
- 5) En BookViewController pasa algo, porque no se me refresca inmediatamente la imagen del libro
 */
 
 import UIKit
@@ -29,24 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
         do {
-            // Creamos el modelo
-            let json: JSONArray = try loadFrom(remoteURL: remoteLibraryUrl)
-            var books = Set<Book>()
-            for dict in json {
-                do {
-                    let book = try decode(book: dict)
-                    books.insert(book)
-                }
-            }
-            let model = Library(books: books)
-
             // Configuramos controladores, combinadores y sus delegados según el tipo de dispositivo
             let rootVC: UIViewController
             switch UIDevice.currentDevice().userInterfaceIdiom {
             case .Pad:
-                rootVC = rootViewControllerForPad(model)
+                rootVC = rootViewControllerForPad()
             case .Phone:
-                rootVC = rootViewControllerForPhone(model)
+                rootVC = rootViewControllerForPhone()
             default:
                 throw LibraryErrors.deviceNotSupported
             }
@@ -59,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             return true
         } catch {
-            fatalError("Error while loading JSON")
+            fatalError("Error while did finish launching with options")
         }
     }
     
@@ -81,13 +68,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: - Universal
-    func rootViewControllerForPad(model: Library) -> UIViewController {
+    func rootViewControllerForPad() -> UIViewController {
         // Controladores
         let index = NSUserDefaults.standardUserDefaults().indexPathForKey(BookKey)
-        let libraryTVC = LibraryTableViewController(model: model, selectedRow: index)
+        let libraryTVC = LibraryTableViewController(model: nil, selectedRow: index, autoSelectRow: true)
         let libraryNav = UINavigationController(rootViewController: libraryTVC)
         
-        let bookVC = BookViewController(model: model.book(atIndex: 0)!)
+        // let initialBook = model.book(atIndex: 0)!
+        let bookVC = BookViewController(model: nil)
         let bookNav = UINavigationController(rootViewController: bookVC)
 
         // Combinadores
@@ -101,9 +89,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return splitVC
     }
 
-    func rootViewControllerForPhone(model: Library) -> UIViewController {
+    func rootViewControllerForPhone() -> UIViewController {
         // Controladores
-        let libraryTVC = LibraryTableViewController(model: model, selectedRow: nil)
+        let libraryTVC = LibraryTableViewController(model: nil, selectedRow: nil, autoSelectRow: false)
 
         // Combinadores
         let libraryNav = UINavigationController(rootViewController: libraryTVC)

@@ -20,16 +20,15 @@ class Library {
     var library: BooksDictionary = BooksDictionary()
     
     //MARK: - Initialization
-    init(books: BooksSet){
-        self.books = books
-        tags = Set()
-        for book in books {
-            for tag in book.tags {
-                tags.insert(tag)
-                if ((library[tag] == nil)) {
-                    library[tag] = BooksSet()
-                }
-                library[tag]?.insert(book)
+    init() {
+        self.books = Set()
+        self.tags = Set()
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            do {
+                try self.createTheLibrary()
+            } catch {
+                print("Library initialization failed!!! \(error)")
             }
         }
     }
@@ -103,5 +102,40 @@ class Library {
         let bookArray = Array(booksSet)
         let bookArraySorted = bookArray.sort()
         return bookArraySorted
+    }
+    
+    //MARK: - Loading the model
+    func createTheLibrary() throws {
+        do {
+            // Obtenemos los libros del JSON, bien sea local o remoto
+            let json: JSONArray = try loadFrom(remoteURL: remoteLibraryUrl)
+            var books = Set<Book>()
+            for dict in json {
+                do {
+                    let book = try decode(book: dict)
+                    books.insert(book)
+                }
+            }
+            
+            // Creamos el modelo a partir del JSON procesado
+            self.books = books
+            tags = Set()
+            for book in books {
+                for tag in book.tags {
+                    tags.insert(tag)
+                    if ((library[tag] == nil)) {
+                        library[tag] = BooksSet()
+                    }
+                    library[tag]?.insert(book)
+                }
+            }
+            
+            // Notificar a todo dios diciendo que tengo nueva librería
+            let nc = NSNotificationCenter.defaultCenter()
+            let notif = NSNotification(name: LibraryAvailableNotification, object: self, userInfo: [LibraryKey: self])
+            nc.postNotification(notif)
+        } catch {
+            print("Error while creating the Library \(error)")
+        }
     }
 }

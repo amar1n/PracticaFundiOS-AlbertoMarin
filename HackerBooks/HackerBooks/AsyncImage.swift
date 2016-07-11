@@ -40,7 +40,6 @@ class AsyncImage: Hashable {
     }
 
     func getRemoteImage() {
-        print("......................................AsyncImage.getRemoteImage")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if let url = self.remoteUrlImage,
                 imageData = NSData(contentsOfURL: url) {
@@ -61,7 +60,6 @@ class AsyncImage: Hashable {
     }
 
     func getImageFromTmp() -> NSData? {
-        print("......................................AsyncImage.getImageFromTmp")
         let path = "\(NSTemporaryDirectory())\(coverPrefix)\(self.hashValue)"
         let imgData: NSData? = NSData(contentsOfFile: path)
         return imgData

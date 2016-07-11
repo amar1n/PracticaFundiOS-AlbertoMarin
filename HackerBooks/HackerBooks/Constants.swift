@@ -34,10 +34,9 @@ let libraryjson = "library.json"
 
 //MARK: - Library
 let LibraryAvailableNotification = "LibraryAvailableNotification"
+let remoteLibraryUrl = "https://t.co/K9ziV0z3SJ"
+let LibraryKey = "LibraryKey"
 
 //MARK: - AsyncImage
 let AsyncImageDidChangeNotification = "AsyncImageDidChangeNotification"
 let coverPrefix = "cover-"
-
-//MARK: - AppDelegate
-let remoteLibraryUrl = "https://t.co/K9ziV0z3SJ"

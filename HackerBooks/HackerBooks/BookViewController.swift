@@ -14,13 +14,14 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     @IBOutlet weak var authorsView: UILabel!
     @IBOutlet weak var coverView: UIImageView!
     @IBOutlet weak var tagsView: UILabel!
-    var model: Book
+    var model: Book?
     
     //MARK: - Initialization
-    init(model: Book) {
-        self.model = model
+    init(model: Book?) {
+        if (model != nil) {
+            self.model = model
+        }
         super.init(nibName: nil, bundle: nil)
-        self.title = self.model.title;
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,11 +30,14 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     
     //MARK: - Syncing
     func syncModelWithView() {
-        print("......................................BookViewController.syncModelWithView")
-        authorsView.text = "de \(model.authors.joinWithSeparator(", "))"
-        tagsView.text = "Etiquetas: \(model.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
-        coverView.image = model.coverImage.image
-        title = model.title
+        guard let theModel = model else {
+            return
+        }
+        
+        authorsView.text = "de \(theModel.authors.joinWithSeparator(", "))"
+        tagsView.text = "Etiquetas: \(theModel.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
+        coverView.image = theModel.coverImage.image
+        title = theModel.title
     }
     
     //MARK: - Actions
@@ -41,15 +45,19 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     }
     
     @IBAction func viewPdf(sender: AnyObject) {
-        if model.pdfUrl != nil {
-            let pdfVC = PDFViewController(model: model)
+        guard let theModel = model else {
+            return
+        }
+        
+        if theModel.pdfUrl != nil {
+            let pdfVC = PDFViewController(model: theModel)
             
             // Hacer unpush sobre mi NavigationController
             navigationController?.pushViewController(pdfVC, animated: true)
         }
     }
     
-    //MARK: - LifeCycle
+    //MARK: - View life cycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -70,17 +78,27 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
     
     //MARK: - Utilities
     func imageDidChange(notification: NSNotification) {
-        print("......................................BookViewController.imageDidChange")
         // Sincronizar las vistas
-        syncModelWithView()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.syncModelWithView()
+        }
     }
     
-    // MARK: - LibraryTableViewControllerDelegate
+    //MARK: - LibraryTableViewControllerDelegate
     func libraryTableViewController(vc: LibraryTableViewController, didSelectBook book: Book) {
         // Actualizar el modelo
         model = book
         
         // Sincronizar las vistas con el nuevo modelo
         syncModelWithView()
+    }
+    
+    //MARK: - UISplitViewControllerDelegate
+    func splitViewController(svc: UISplitViewController, willHideViewController aViewController: UIViewController, withBarButtonItem barButtonItem: UIBarButtonItem, forPopoverController pc: UIPopoverController) {
+        self.navigationItem.rightBarButtonItem = barButtonItem;
+    }
+    
+    func splitViewController(svc: UISplitViewController, willShowViewController aViewController: UIViewController, invalidatingBarButtonItem barButtonItem: UIBarButtonItem) {
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
