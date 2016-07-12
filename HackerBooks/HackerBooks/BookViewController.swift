@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookViewController: UIViewController, LibraryTableViewControllerDelegate, UISplitViewControllerDelegate {
+class BookViewController: UIViewController, LibraryViewControllerDelegate, UISplitViewControllerDelegate {
     
     //MARK: - Properties
     @IBOutlet weak var authorsView: UILabel!
@@ -84,8 +84,8 @@ class BookViewController: UIViewController, LibraryTableViewControllerDelegate, 
         }
     }
     
-    //MARK: - LibraryTableViewControllerDelegate
-    func libraryTableViewController(vc: LibraryTableViewController, didSelectBook book: Book) {
+    //MARK: - LibraryViewControllerDelegate
+    func libraryViewController(vc: LibraryViewController, didSelectBook book: Book) {
         // Actualizar el modelo
         model = book
         

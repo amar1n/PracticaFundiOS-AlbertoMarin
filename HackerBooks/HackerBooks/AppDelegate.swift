@@ -10,8 +10,7 @@
 Vainas que me faltan...
  
  1) Favoritos
- 2) Ordenación Tags/Alphabetically
- 3) Celda personalizada
+ 2) Celda personalizada
 */
 
 import UIKit
@@ -71,35 +70,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func rootViewControllerForPad() -> UIViewController {
         // Controladores
         let index = NSUserDefaults.standardUserDefaults().indexPathForKey(BookKey)
-        let libraryTVC = LibraryTableViewController(model: nil, selectedRow: index, autoSelectRow: true)
-        let libraryNav = UINavigationController(rootViewController: libraryTVC)
+        let libraryVC = LibraryViewController(model: nil, selectedRow: index, autoSelectRow: true)
+        let libraryNav = UINavigationController(rootViewController: libraryVC)
         
         // let initialBook = model.book(atIndex: 0)!
         let bookVC = BookViewController(model: nil)
         let bookNav = UINavigationController(rootViewController: bookVC)
-
+        
         // Combinadores
         let splitVC = UISplitViewController()
         splitVC.viewControllers = [libraryNav, bookNav]
         
         // Delegados
         splitVC.delegate = bookVC
-        libraryTVC.delegate = bookVC
+        libraryVC.setDelegate(bookVC)
         
         return splitVC
     }
 
     func rootViewControllerForPhone() -> UIViewController {
         // Controladores
-        let libraryTVC = LibraryTableViewController(model: nil, selectedRow: nil, autoSelectRow: false)
-
+        let libraryVC = LibraryViewController(model: nil, selectedRow: nil, autoSelectRow: false)
+        
         // Combinadores
-        let libraryNav = UINavigationController(rootViewController: libraryTVC)
+        let libraryNav = UINavigationController(rootViewController: libraryVC)
         
         // Delegados
-        libraryTVC.setDelegate(libraryTVC)
+        libraryVC.setDelegate(libraryVC)
         
         return libraryNav
     }
 }
-

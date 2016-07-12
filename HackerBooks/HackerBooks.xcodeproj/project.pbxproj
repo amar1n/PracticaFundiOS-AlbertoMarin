@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D306A5431D34583200047F11 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D306A5411D34583200047F11 /* LibraryViewController.swift */; };
+		D306A5441D34583200047F11 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D306A5421D34583200047F11 /* LibraryViewController.xib */; };
 		D34CADD41D2AFA030074C1C0 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CADD31D2AFA030074C1C0 /* Foundation.swift */; };
 		D3829F571D2A720B007D3ED9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F561D2A720B007D3ED9 /* AppDelegate.swift */; };
 		D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3829F5D1D2A720B007D3ED9 /* Assets.xcassets */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D306A5411D34583200047F11 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		D306A5421D34583200047F11 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
 		D34CADD31D2AFA030074C1C0 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		D3829F531D2A720B007D3ED9 /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3829F561D2A720B007D3ED9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 				D3DEC1FF1D2F0EEF001C190E /* BookViewController.xib */,
 				D3DEC2101D315B6D001C190E /* PDFViewController.swift */,
 				D3DEC2111D315B6D001C190E /* PDFViewController.xib */,
+				D306A5411D34583200047F11 /* LibraryViewController.swift */,
+				D306A5421D34583200047F11 /* LibraryViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -200,6 +206,7 @@
 			files = (
 				D3DEC2131D315B6D001C190E /* PDFViewController.xib in Resources */,
 				D3829F611D2A720B007D3ED9 /* LaunchScreen.storyboard in Resources */,
+				D306A5441D34583200047F11 /* LibraryViewController.xib in Resources */,
 				D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */,
 				D3DEC20B1D300E19001C190E /* noImage.png in Resources */,
 				D3DEC2011D2F0EEF001C190E /* BookViewController.xib in Resources */,
@@ -225,6 +232,7 @@
 				D3DEC1FB1D2C5CAD001C190E /* LibraryTableViewController.swift in Sources */,
 				D3829F6E1D2A93E1007D3ED9 /* Library.swift in Sources */,
 				D3DEC2171D3288A9001C190E /* Constants.swift in Sources */,
+				D306A5431D34583200047F11 /* LibraryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
