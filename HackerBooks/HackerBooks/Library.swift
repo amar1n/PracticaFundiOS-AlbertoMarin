@@ -168,6 +168,29 @@ class Library {
             }
         }
     }
+
+    func refreshFavorites(book: Book) {
+        var ft = tagBy(favoritesTag)
+        if book.favorite {
+            if ft == nil {
+                ft = Tag(name: favoritesTag)
+            }
+            tags.insert(ft!)
+            if ((library[ft!] == nil)) {
+                library[ft!] = BooksSet()
+            }
+            
+            library[ft!]?.insert(book)
+        } else {
+            if ft != nil {
+                library[ft!]?.remove(book)
+                if (library[ft!]?.count == 0) {
+                    library[ft!] = nil
+                    tags.remove(ft!)
+                }
+            }
+        }
+    }
 }
 
 

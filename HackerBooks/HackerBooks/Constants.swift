@@ -38,7 +38,7 @@ let libraryjson = "library.json"
 let LibraryAvailableNotification = "LibraryAvailableNotification"
 let remoteLibraryUrl = "https://t.co/K9ziV0z3SJ"
 let LibraryKey = "LibraryKey"
-let favoritesTag = "Favorites"
+let favoritesTag = "⭐️F A V O R I T E S⭐️"
 
 //MARK: - AsyncImage
 let AsyncImageDidChangeNotification = "AsyncImageDidChangeNotification"

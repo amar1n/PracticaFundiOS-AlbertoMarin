@@ -198,8 +198,16 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func favoritesDidChange(notification: NSNotification) {
+        // Sacar el userInfo
+        let info = notification.userInfo!
+        
+        // Sacar el libro
+        guard let book = info[BookKey] as? Book else {
+            return
+        }
+
         // Actualizar el modelo
-        model?.refreshFavorites()
+        model?.refreshFavorites(book)
         
         // Sincronizar las vistas
         dispatch_async(dispatch_get_main_queue()) {

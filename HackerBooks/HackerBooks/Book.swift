@@ -65,7 +65,7 @@ class Book: Comparable, Hashable {
             
             // Notificar a todo dios diciendo que tengo nuevo status de favorito
             let nc = NSNotificationCenter.defaultCenter()
-            let notif = NSNotification(name: FavoriteDidChangeNotification, object: self)
+            let notif = NSNotification(name: FavoriteDidChangeNotification, object: self, userInfo: [BookKey: self])
             nc.postNotification(notif)
         }
         get {
