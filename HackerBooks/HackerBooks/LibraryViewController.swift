@@ -29,10 +29,20 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.autoSelectRow = autoSelectRow
         super.init(nibName: nil, bundle: nil)
         self.title = AppName;
+
+        // Alta en notificacion
+        let nc = NSNotificationCenter.defaultCenter()
+        nc.addObserver(self, selector: #selector(libraryDidChange), name: LibraryAvailableNotification, object: nil)
+        nc.addObserver(self, selector: #selector(favoritesDidChange), name: FavoriteDidChangeNotification, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        // Baja en la notificacion
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     //MARK: - Actions
@@ -56,22 +66,6 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Alta en notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(libraryDidChange), name: LibraryAvailableNotification, object: nil)
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Baja en la notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.removeObserver(self)
-    }
-    
     override func viewDidAppear(animated: Bool) {
         if (autoSelectRow && selectedRow != nil) {
             self.tableView.selectRowAtIndexPath(selectedRow, animated: false, scrollPosition: .Middle)
@@ -107,7 +101,11 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (segmentControl.selectedSegmentIndex == 0) {
             return theModel.tagsCount
         } else {
-            return 1
+            if theModel.booksCount > 0 {
+                return 1
+            } else {
+                return 0
+            }
         }
     }
     
@@ -198,7 +196,17 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.syncModelWithView()
         }
     }
-    
+
+    func favoritesDidChange(notification: NSNotification) {
+        // Actualizar el modelo
+        model?.refreshFavorites()
+        
+        // Sincronizar las vistas
+        dispatch_async(dispatch_get_main_queue()) {
+            self.syncModelWithView()
+        }
+    }
+
     // MARK: - LibraryViewControllerDelegate
     func setDelegate(delegate: LibraryViewControllerDelegate?) {
         self.delegate = delegate

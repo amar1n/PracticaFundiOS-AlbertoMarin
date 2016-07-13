@@ -38,10 +38,34 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
         tagsView.text = "Etiquetas: \(theModel.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
         coverView.image = theModel.coverImage.image
         title = theModel.title
+        syncFavoriteTitle()
     }
     
+    func syncFavoriteTitle() {
+        let myToolBarArray = self.view.subviews.filter{$0 is UIToolbar}
+        let myToolBar : UIToolbar = myToolBarArray[0] as! UIToolbar
+        let favoriteButton = myToolBar.items![0]
+        
+        guard let theModel = model else {
+            favoriteButton.title = "B A Z I N G A"
+            return
+        }
+        
+        if theModel.favorite {
+            favoriteButton.title = "Quítame de favoritos..."
+        } else {
+            favoriteButton.title = "Hazme favorito!!!"
+        }
+    }
+
     //MARK: - Actions
     @IBAction func makeFavorite(sender: AnyObject) {
+        guard let theModel = model else {
+            return
+        }
+        
+        theModel.favorite = !theModel.favorite
+        syncModelWithView()
     }
     
     @IBAction func viewPdf(sender: AnyObject) {

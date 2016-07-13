@@ -10,13 +10,9 @@ import Foundation
 
 class Library {
     
-    //MARK: - Utility Types
-    typealias BooksSet = Set<Book>
-    typealias BooksDictionary = [Tag: BooksSet]
-    
     //MARK: - Properties
     var books: BooksSet
-    var tags: Set<Tag>
+    var tags: TagsSet
     var library: BooksDictionary = BooksDictionary()
     
     //MARK: - Initialization
@@ -119,6 +115,7 @@ class Library {
             
             // Creamos el modelo a partir del JSON procesado
             self.books = books
+            let ft = Tag(name: favoritesTag)
             tags = Set()
             for book in books {
                 for tag in book.tags {
@@ -127,6 +124,13 @@ class Library {
                         library[tag] = BooksSet()
                     }
                     library[tag]?.insert(book)
+                }
+                if book.favorite {
+                    tags.insert(ft)
+                    if ((library[ft] == nil)) {
+                        library[ft] = BooksSet()
+                    }
+                    library[ft]?.insert(book)
                 }
             }
             
@@ -138,4 +142,53 @@ class Library {
             print("Error while creating the Library \(error)")
         }
     }
+
+    //MARK: - Refreshing favorites
+    func refreshFavorites() {
+        var ft = tagBy(favoritesTag)
+        for book in books {
+            if book.favorite {
+                if ft == nil {
+                    ft = Tag(name: favoritesTag)
+                }
+                tags.insert(ft!)
+                if ((library[ft!] == nil)) {
+                    library[ft!] = BooksSet()
+                }
+                
+                library[ft!]?.insert(book)
+            } else {
+                if ft != nil {
+                    library[ft!]?.remove(book)
+                    if (library[ft!]?.count == 0) {
+                        library[ft!] = nil
+                        tags.remove(ft!)
+                    }
+                }
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

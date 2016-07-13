@@ -13,21 +13,17 @@ class Book: Comparable, Hashable {
     //MARK: - Stored properties
     let title: String
     let authors: [String]
-    let tags: Set<Tag>
+    let tags: TagsSet
     let pdfUrl: NSURL?
     let coverImage: AsyncImage
-    var isFavorite: Bool
-    
-    //MARK: - Computed properties
     
     //MARK: - Initialization
-    init(title: String, authors: [String], tags: Set<Tag>, pdfUrl: NSURL?, coverUrl: NSURL?, favorite: Bool){
+    init(title: String, authors: [String], tags: TagsSet, pdfUrl: NSURL?, coverUrl: NSURL?){
         self.title = title
         self.authors = authors
         self.tags = tags
         self.pdfUrl = pdfUrl
         self.coverImage = AsyncImage(bookTitle: self.title, remoteUrlImage: coverUrl, placeholderName: "noImage.png")
-        self.isFavorite = favorite
     }
     
     //MARK: - Proxies
@@ -47,6 +43,41 @@ class Book: Comparable, Hashable {
     var hashValue: Int {
         get{
             return title.hashValue
+        }
+    }
+    
+    //MARK: - Computed properties
+    var favorite: Bool {
+        set {
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            var favoritesDict = userDefaults.objectForKey(favorites) as? [String: Bool] ?? [String: Bool]()
+            if newValue {
+                favoritesDict.updateValue(newValue, forKey: "\(self.hashValue)")
+            } else {
+                favoritesDict.removeValueForKey("\(self.hashValue)")
+            }
+            if favoritesDict.count == 0 {
+                userDefaults.removeObjectForKey(favorites)
+            } else {
+                userDefaults.setObject(favoritesDict, forKey: favorites)
+            }
+            userDefaults.synchronize()
+            
+            // Notificar a todo dios diciendo que tengo nuevo status de favorito
+            let nc = NSNotificationCenter.defaultCenter()
+            let notif = NSNotification(name: FavoriteDidChangeNotification, object: self)
+            nc.postNotification(notif)
+        }
+        get {
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            guard let favoritesDict = userDefaults.dictionaryForKey(favorites) else {
+                return false
+            }
+            var bFlag = false
+            if let val = favoritesDict["\(self.hashValue)"] {
+                bFlag = val as! Bool
+            }
+            return bFlag
         }
     }
 }

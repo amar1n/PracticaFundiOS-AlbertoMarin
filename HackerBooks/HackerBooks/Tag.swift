@@ -49,5 +49,8 @@ func ==(lhs: Tag, rhs: Tag) -> Bool {
 }
 
 func <(lhs: Tag, rhs: Tag) -> Bool {
+    if lhs.name == favoritesTag {
+        return true
+    }
     return lhs.proxyForSorting < rhs.proxyForSorting
 }

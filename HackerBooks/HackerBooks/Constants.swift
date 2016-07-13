@@ -12,9 +12,11 @@ import Foundation
 typealias JSONObject = AnyObject
 typealias JSONDictionary = [String : JSONObject]
 typealias JSONArray = [JSONDictionary]
+typealias BooksSet = Set<Book>
+typealias BooksDictionary = [Tag: BooksSet]
+typealias TagsSet = Set<Tag>
 
-
-//MARK: - LibraryTableViewController
+//MARK: - LibraryTableViewController & LibraryViewController
 let BookDidChangeNotification = "BookDidChangeNotification"
 let BookKey = "BookKey"
 let AppName = "HackerBooks"
@@ -36,7 +38,13 @@ let libraryjson = "library.json"
 let LibraryAvailableNotification = "LibraryAvailableNotification"
 let remoteLibraryUrl = "https://t.co/K9ziV0z3SJ"
 let LibraryKey = "LibraryKey"
+let favoritesTag = "Favorites"
 
 //MARK: - AsyncImage
 let AsyncImageDidChangeNotification = "AsyncImageDidChangeNotification"
 let coverPrefix = "cover-"
+
+//MARK: - Book
+let favorites = "favorites"
+let favoritePrefix = "favorite-"
+let FavoriteDidChangeNotification = "FavoriteDidChangeNotification"

@@ -30,7 +30,7 @@ func decode (book json: JSONDictionary) throws -> Book {
             throw LibraryErrors.wrongURLFormatForJSONResource
     }
     
-    var etiquetas = Set<Tag>()
+    var etiquetas = TagsSet()
     if let tagsString = json[tags] as? String {
         let tagsArray = tagsString.componentsSeparatedByString(",")
         let trimmedTagsArray = tagsArray.map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }
@@ -47,7 +47,7 @@ func decode (book json: JSONDictionary) throws -> Book {
             throw LibraryErrors.wrongJSONFormat
     }
     
-    return Book(title: title, authors: autores, tags: etiquetas, pdfUrl: pdfUrl, coverUrl: coverUrl, favorite: false)
+    return Book(title: title, authors: autores, tags: etiquetas, pdfUrl: pdfUrl, coverUrl: coverUrl)
 }
 
 func decode (book json: JSONDictionary?) throws -> Book {
@@ -126,13 +126,6 @@ func getLibraryFromRemote(remoteURL: String) throws -> NSData? {
         throw LibraryErrors.jsonParsingError
     }
     return NSData(contentsOfURL: url)
-//    var libraryData: NSData? = nil
-//    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-//        if let url = NSURL(string: remoteURL) {
-//            libraryData = NSData(contentsOfURL: url)
-//        }
-//    }
-//    return libraryData
 }
 
 func saveInDocuments(theLibrary array: JSONArray) {
