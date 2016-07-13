@@ -48,3 +48,7 @@ let coverPrefix = "cover-"
 let favorites = "favorites"
 let favoritePrefix = "favorite-"
 let FavoriteDidChangeNotification = "FavoriteDidChangeNotification"
+
+//MARK: - BookCellView
+let BookCustomCellId = "BookCustomCell"
+let BookCustomCellHeight = 60

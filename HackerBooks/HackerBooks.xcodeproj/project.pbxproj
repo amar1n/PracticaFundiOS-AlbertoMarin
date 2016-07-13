@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D306A5431D34583200047F11 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D306A5411D34583200047F11 /* LibraryViewController.swift */; };
 		D306A5441D34583200047F11 /* LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D306A5421D34583200047F11 /* LibraryViewController.xib */; };
+		D339FAE91D36703C00BE91A7 /* BookCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D339FAE81D36703C00BE91A7 /* BookCellView.xib */; };
+		D339FAEB1D3672A100BE91A7 /* BookCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D339FAEA1D3672A100BE91A7 /* BookCellView.swift */; };
 		D34CADD41D2AFA030074C1C0 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CADD31D2AFA030074C1C0 /* Foundation.swift */; };
 		D3829F571D2A720B007D3ED9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3829F561D2A720B007D3ED9 /* AppDelegate.swift */; };
 		D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3829F5D1D2A720B007D3ED9 /* Assets.xcassets */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		D306A5411D34583200047F11 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		D306A5421D34583200047F11 /* LibraryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryViewController.xib; sourceTree = "<group>"; };
+		D339FAE81D36703C00BE91A7 /* BookCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookCellView.xib; sourceTree = "<group>"; };
+		D339FAEA1D3672A100BE91A7 /* BookCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCellView.swift; sourceTree = "<group>"; };
 		D34CADD31D2AFA030074C1C0 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		D3829F531D2A720B007D3ED9 /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3829F561D2A720B007D3ED9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D339FAE71D366FEA00BE91A7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D339FAE81D36703C00BE91A7 /* BookCellView.xib */,
+				D339FAEA1D3672A100BE91A7 /* BookCellView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		D34CADD21D2AF9D40074C1C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +117,7 @@
 		D3829F681D2A727A007D3ED9 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				D339FAE71D366FEA00BE91A7 /* Views */,
 				D3829F6A1D2A74D9007D3ED9 /* Controllers */,
 				D3829F691D2A7287007D3ED9 /* Models */,
 				D3DEC2161D3288A9001C190E /* Constants.swift */,
@@ -206,6 +220,7 @@
 			files = (
 				D3DEC2131D315B6D001C190E /* PDFViewController.xib in Resources */,
 				D3829F611D2A720B007D3ED9 /* LaunchScreen.storyboard in Resources */,
+				D339FAE91D36703C00BE91A7 /* BookCellView.xib in Resources */,
 				D306A5441D34583200047F11 /* LibraryViewController.xib in Resources */,
 				D3829F5E1D2A720B007D3ED9 /* Assets.xcassets in Resources */,
 				D3DEC20B1D300E19001C190E /* noImage.png in Resources */,
@@ -221,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3DEC20D1D30110B001C190E /* AsyncImage.swift in Sources */,
+				D339FAEB1D3672A100BE91A7 /* BookCellView.swift in Sources */,
 				D3DEC2121D315B6D001C190E /* PDFViewController.swift in Sources */,
 				D3DEC1F91D2C38F4001C190E /* Tag.swift in Sources */,
 				D34CADD41D2AFA030074C1C0 /* Foundation.swift in Sources */,

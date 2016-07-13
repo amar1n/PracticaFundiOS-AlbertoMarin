@@ -64,6 +64,8 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+
+        tableView.registerNib(UINib(nibName: "BookCellView", bundle: nil), forCellReuseIdentifier: BookCustomCellId)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -90,6 +92,10 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let nc = NSNotificationCenter.defaultCenter()
         let notif = NSNotification(name: BookDidChangeNotification, object: self, userInfo: [BookKey: theBook])
         nc.postNotification(notif)
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(BookCustomCellHeight)
     }
     
     // MARK: - UITableViewDataSource
@@ -122,22 +128,31 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // Crear la celda
-        var cell = tableView.dequeueReusableCellWithIdentifier(BookCellId)
-        if cell == nil {
-            // El optional está vacía: hay que crearla a pelo
-            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: BookCellId)
-        }
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(BookCustomCellId, forIndexPath: indexPath) as! BookCellView
         
-        // Averiguar el libro
         guard let theBook = book(forIndexPath: indexPath) else {
-            return cell!
+            return cell
         }
+        cell.bookTitle.text = theBook.title
         
-        // Sincronizar libro -> celda
-        cell?.textLabel?.text = theBook.title
-        
-        return cell!
+        return cell
+//        // Crear la celda
+//        var cell = tableView.dequeueReusableCellWithIdentifier(BookCellId)
+//        if cell == nil {
+//            // El optional está vacía: hay que crearla a pelo
+//            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: BookCellId)
+//        }
+//        
+//        // Averiguar el libro
+//        guard let theBook = book(forIndexPath: indexPath) else {
+//            return cell!
+//        }
+//        
+//        // Sincronizar libro -> celda
+//        cell?.textLabel?.text = theBook.title
+//        
+//        return cell!
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
