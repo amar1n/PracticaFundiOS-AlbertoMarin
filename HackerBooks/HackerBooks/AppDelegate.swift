@@ -6,13 +6,6 @@
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
-/*
-Vainas que me faltan...
- 
- 1) Favoritos
- 2) Celda personalizada
-*/
-
 import UIKit
 
 @UIApplicationMain
