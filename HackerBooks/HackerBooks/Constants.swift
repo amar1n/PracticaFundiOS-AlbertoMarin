@@ -20,7 +20,11 @@ typealias TagsSet = Set<Tag>
 let BookDidChangeNotification = "BookDidChangeNotification"
 let BookKey = "BookKey"
 let AppName = "HackerBooks"
-let BookCellId = "BookCell"
+let BookCellId = "BookCellId"
+let BookCellHeight = 60
+let TagCellId = "TagCellId"
+let TagCellHeight = 44
+let TagCellHeader2 = "Books available..."
 
 //MARK: - PDFViewController
 let PDFViewControllerPDFAvailableNotification = "PDFViewControllerPDFAvailableNotification"
@@ -48,7 +52,3 @@ let coverPrefix = "cover-"
 let favorites = "favorites"
 let favoritePrefix = "favorite-"
 let FavoriteDidChangeNotification = "FavoriteDidChangeNotification"
-
-//MARK: - BookCellView
-let BookCustomCellId = "BookCustomCell"
-let BookCustomCellHeight = 60
