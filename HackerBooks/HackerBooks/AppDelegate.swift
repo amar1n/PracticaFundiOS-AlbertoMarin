@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             default:
                 throw LibraryErrors.deviceNotSupported
             }
-
+            
             // Asignar el rootVC
             window?.rootViewController = rootVC
 
@@ -78,6 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splitVC.delegate = bookVC
         libraryVC.setDelegate(bookVC)
         
+        // Asignar el mismo tipo de letra en todas las barras de navegación
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Star Jedi", size: 20)!]
+
         return splitVC
     }
 
@@ -91,6 +95,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Delegados
         libraryVC.setDelegate(libraryVC)
         
+        // Asignar el mismo tipo de letra en todas las barras de navegación
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Star Jedi", size: 15)!]
+
         return libraryNav
     }
 }
