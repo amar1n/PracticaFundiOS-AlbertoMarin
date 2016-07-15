@@ -56,6 +56,7 @@ En este caso me decanté por el uso de notificaciones, es decir, el controlador 
 * Una zona para añadir comentarios y que estos se visualicen en el detalle del libro
 * Poder hacer zoom en el PDF para poder leer correctamente el libro
 * Modificar la interfaz de usuario para que sea atractiva y no un mero ejercicio docente
+* Internacionalización de literales
 
 #### 2) Subirla a la App Store
 No lo he intentado
