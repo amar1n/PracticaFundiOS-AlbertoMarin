@@ -70,13 +70,6 @@ func loadFrom(localFileName name: String, bundle: NSBundle = NSBundle.mainBundle
     }
 }
 
-/*
- Is there a difference between “is” and isKindOfClass()?
- 
- Yes there is a difference: "is" works with any class in Swift, whereas isKindOfClass() works only with those classes that are subclasses
- of NSObject or otherwise implement NSObjectProtocol.
- 
- */
 func loadFrom(remoteURL url: String, bundle: NSBundle = NSBundle.mainBundle()) throws -> JSONArray {
     var libraryData: NSData? = getLibraryFromDocuments()
     
