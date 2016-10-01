@@ -15,11 +15,11 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     var model: Library?
     var delegate: LibraryViewControllerDelegate?
-    var selectedRow: NSIndexPath?
+    var selectedRow: IndexPath?
     var autoSelectRow: Bool
     
     //MARK: - Initialization
-    init(model: Library?, selectedRow: NSIndexPath?, autoSelectRow: Bool) {
+    init(model: Library?, selectedRow: IndexPath?, autoSelectRow: Bool) {
         if model == nil {
             self.model = Library()
         } else {
@@ -31,9 +31,9 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.title = AppName;
         
         // Alta en notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(libraryDidChange), name: LibraryAvailableNotification, object: nil)
-        nc.addObserver(self, selector: #selector(favoritesDidChange), name: FavoriteDidChangeNotification, object: nil)
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(libraryDidChange), name: NSNotification.Name(rawValue: LibraryAvailableNotification), object: nil)
+        nc.addObserver(self, selector: #selector(favoritesDidChange), name: NSNotification.Name(rawValue: FavoriteDidChangeNotification), object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,11 +42,11 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     deinit {
         // Baja en la notificacion
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - Actions
-    @IBAction func segmentedAction(sender: AnyObject) {
+    @IBAction func segmentedAction(_ sender: AnyObject) {
         syncModelWithView()
     }
     
@@ -54,8 +54,8 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func syncModelWithView() {
         self.tableView.reloadData()
         if (self.autoSelectRow && self.selectedRow != nil) {
-            self.tableView.selectRowAtIndexPath(self.selectedRow, animated: false, scrollPosition: .Middle)
-            self.tableView(self.tableView, didSelectRowAtIndexPath: self.selectedRow!)
+            self.tableView.selectRow(at: self.selectedRow, animated: false, scrollPosition: .middle)
+            self.tableView(self.tableView, didSelectRowAt: self.selectedRow!)
         }
     }
     
@@ -65,23 +65,23 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.registerNib(UINib(nibName: "BookCellView", bundle: nil), forCellReuseIdentifier: BookCellId)
-        tableView.registerNib(UINib(nibName: "TagCellView", bundle: nil), forCellReuseIdentifier: TagCellId)
+        tableView.register(UINib(nibName: "BookCellView", bundle: nil), forCellReuseIdentifier: BookCellId)
+        tableView.register(UINib(nibName: "TagCellView", bundle: nil), forCellReuseIdentifier: TagCellId)
         
         setupSegmentedControlView()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if (autoSelectRow && selectedRow != nil) {
-            self.tableView.selectRowAtIndexPath(selectedRow, animated: false, scrollPosition: .Middle)
-            self.tableView(self.tableView, didSelectRowAtIndexPath: selectedRow!)
+            self.tableView.selectRow(at: selectedRow, animated: false, scrollPosition: .middle)
+            self.tableView(self.tableView, didSelectRowAt: selectedRow!)
         }
     }
     
     // MARK: - UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Salvar el index seleccionado
-        NSUserDefaults.standardUserDefaults().setIndexPath(indexPath, forKey: BookKey)
+        UserDefaults.standard.setIndexPath(indexPath, forKey: BookKey)
         
         // Averiguar cual es el libro
         guard let theBook = book(forIndexPath: indexPath) else {
@@ -92,21 +92,21 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         delegate?.libraryViewController(self, didSelectBook: theBook)
         
         // Enviamos la misma info via notificaciones
-        let nc = NSNotificationCenter.defaultCenter()
-        let notif = NSNotification(name: BookDidChangeNotification, object: self, userInfo: [BookKey: theBook])
-        nc.postNotification(notif)
+        let nc = NotificationCenter.default
+        let notif = Notification(name: Notification.Name(rawValue: BookDidChangeNotification), object: self, userInfo: [BookKey: theBook])
+        nc.post(notif)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(BookCellHeight)
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat(TagCellHeight)
     }
     
     // MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         guard let theModel = model else {
             return 0
         }
@@ -122,7 +122,7 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let theModel = model else {
             return 0
         }
@@ -134,9 +134,9 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(BookCellId, forIndexPath: indexPath) as! BookCellView
+        let cell = tableView.dequeueReusableCell(withIdentifier: BookCellId, for: indexPath) as! BookCellView
         
         guard let theBook = book(forIndexPath: indexPath) else {
             return cell
@@ -146,8 +146,8 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TagCellId) as! TagCellView
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TagCellId) as! TagCellView
 
         if (segmentControl.selectedSegmentIndex == 0) {
             guard let tag = getTag(forSection: section) else {
@@ -155,14 +155,14 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             cell.tagImageView.image = UIImage(named: "\(section % 36)")
             cell.tagNameView.text = tag.name
-            cell.backgroundColor = UIColor.lightGrayColor()
+            cell.backgroundColor = UIColor.lightGray
         } else {
-            cell.backgroundColor = UIColor.lightGrayColor()
+            cell.backgroundColor = UIColor.lightGray
             cell.tagImageView.removeFromSuperview()
             cell.tagNameView.removeFromSuperview()
-            let label = UILabel(frame: CGRectMake(0, 0, cell.frame.width, cell.frame.height))
-            label.textAlignment = NSTextAlignment.Center
-            label.textColor = UIColor.blackColor()
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
+            label.textAlignment = NSTextAlignment.center
+            label.textColor = UIColor.black
             label.text = TagCellHeader2
             label.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
             cell.addSubview(label)
@@ -177,25 +177,25 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
             return nil
         }
         let tagsArray = Array(theModel.tags)
-        let tagsArraySorted = tagsArray.sort()
+        let tagsArraySorted = tagsArray.sorted()
         return tagsArraySorted[section]
     }
     
-    func book(forIndexPath indexPath: NSIndexPath) -> Book? {
+    func book(forIndexPath indexPath: IndexPath) -> Book? {
         guard let theModel = self.model else {
             return nil
         }
         
         if (segmentControl.selectedSegmentIndex == 0) {
-            return theModel.book(atIndex: indexPath.row, forTag: getTag(forSection: indexPath.section)!)!
+            return theModel.book(atIndex: (indexPath as NSIndexPath).row, forTag: getTag(forSection: (indexPath as NSIndexPath).section)!)!
         } else {
-            return theModel.book(atIndex: indexPath.row)
+            return theModel.book(atIndex: (indexPath as NSIndexPath).row)
         }
     }
     
-    func libraryDidChange(notification: NSNotification) {
+    func libraryDidChange(_ notification: Notification) {
         // Sacar el userInfo
-        let info = notification.userInfo!
+        let info = (notification as NSNotification).userInfo!
         
         // Sacar la librería
         guard let library = info[LibraryKey] as? Library else {
@@ -207,19 +207,19 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Inicializar y salvar el index seleccionado
         if model!.booksCount > 0 {
-            selectedRow = NSIndexPath(forRow: 0, inSection: 0)
-            NSUserDefaults.standardUserDefaults().setIndexPath(selectedRow!, forKey: BookKey)
+            selectedRow = IndexPath(row: 0, section: 0)
+            UserDefaults.standard.setIndexPath(selectedRow!, forKey: BookKey)
         }
         
         // Sincronizar las vistas
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.syncModelWithView()
         }
     }
     
-    func favoritesDidChange(notification: NSNotification) {
+    func favoritesDidChange(_ notification: Notification) {
         // Sacar el userInfo
-        let info = notification.userInfo!
+        let info = (notification as NSNotification).userInfo!
         
         // Sacar el libro
         guard let book = info[BookKey] as? Book else {
@@ -230,28 +230,28 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
         model?.refreshFavorites(book)
         
         // Sincronizar las vistas
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.syncModelWithView()
         }
     }
     
     func setupSegmentedControlView() {
         var subViewOfSegment: UIView = segmentControl.subviews[0] as UIView
-        subViewOfSegment.tintColor = UIColor.lightGrayColor()
+        subViewOfSegment.tintColor = UIColor.lightGray
         
         subViewOfSegment = segmentControl.subviews[1] as UIView
-        subViewOfSegment.tintColor = UIColor.lightGrayColor()
+        subViewOfSegment.tintColor = UIColor.lightGray
         
-        segmentControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor()], forState: UIControlState.Normal)
-        segmentControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
+        segmentControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGray], for: UIControlState())
+        segmentControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
     }
     
     // MARK: - LibraryViewControllerDelegate
-    func setDelegate(delegate: LibraryViewControllerDelegate?) {
+    func setDelegate(_ delegate: LibraryViewControllerDelegate?) {
         self.delegate = delegate
     }
     
-    func libraryViewController(vc: LibraryViewController, didSelectBook book: Book) {
+    func libraryViewController(_ vc: LibraryViewController, didSelectBook book: Book) {
         let bookVC = BookViewController(model: book)
         navigationController?.pushViewController(bookVC, animated: true)
     }
@@ -259,5 +259,5 @@ class LibraryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 protocol LibraryViewControllerDelegate {
-    func libraryViewController(vc: LibraryViewController, didSelectBook book: Book)
+    func libraryViewController(_ vc: LibraryViewController, didSelectBook book: Book)
 }

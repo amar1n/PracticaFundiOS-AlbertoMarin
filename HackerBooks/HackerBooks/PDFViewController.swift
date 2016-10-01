@@ -29,14 +29,18 @@ class PDFViewController: UIViewController, UIWebViewDelegate {
     //MARK: - Syncing
     func syncModelWithView() {
         browserView.delegate = self
-        activityView.hidden = false
+        activityView.isHidden = false
         activityView.startAnimating()
         
         let pdfData = getPDFCached()
         if (pdfData == nil) {
             getRemotePDF()
         } else {
-            browserView.loadData(pdfData!, MIMEType: "application/pdf", textEncodingName: "", baseURL: NSURL())
+            let localFilePath = Bundle.main.path(forResource: "home", ofType:"txt");
+            let data = FileManager.default.contents(atPath: localFilePath!);
+            browserView.loadData(data!, MIMEType: "application/txt", textEncodingName: "UTF-8", baseURL: nil);
+        
+            //browserView.load(pdfData!, mimeType: "application/pdf", textEncodingName: "", baseURL: nil)
         }
         
         title = self.model.title
@@ -50,20 +54,20 @@ class PDFViewController: UIViewController, UIWebViewDelegate {
     }
 
     //MARK: - View life cycle
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Alta en notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(bookDidChange), name: BookDidChangeNotification, object: nil)
-        nc.addObserver(self, selector: #selector(syncModelWithView), name: PDFViewControllerPDFAvailableNotification, object: nil)
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(bookDidChange), name: NSNotification.Name(rawValue: BookDidChangeNotification), object: nil)
+        nc.addObserver(self, selector: #selector(syncModelWithView), name: NSNotification.Name(rawValue: PDFViewControllerPDFAvailableNotification), object: nil)
         
         syncModelWithView()
     }
     
-    func bookDidChange(notification: NSNotification) {
+    func bookDidChange(_ notification: Notification) {
         // Sacar el userInfo
-        let info = notification.userInfo!
+        let info = (notification as NSNotification).userInfo!
         
         // Sacar el personaje
         let book = info[BookKey] as? Book
@@ -75,58 +79,58 @@ class PDFViewController: UIViewController, UIWebViewDelegate {
         syncModelWithView()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Baja en la notificacion
-        let nc = NSNotificationCenter.defaultCenter()
+        let nc = NotificationCenter.default
         nc.removeObserver(self)
     }
     
     
     //MARK: - UIWebViewDelegate
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         // Parar el activityView
         activityView.stopAnimating()
         
         // Ocultarlo
-        activityView.hidden = true
+        activityView.isHidden = true
     }
     
     //MARK:- Utilities
-    func getPDFCached() -> NSData? {
+    func getPDFCached() -> Data? {
         return getPDFFromTmp()
     }
     
     func getRemotePDF() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             if let url = self.model.pdfUrl,
-                pdfData = NSData(contentsOfURL: url) {
+                let pdfData = try? Data(contentsOf: url as URL) {
                 
                 let bFlag = self.cachePDF(pdfData)
                 if (bFlag) {
                     // Notificar a todo dios diciendo que tengo el pdf
-                    let nc = NSNotificationCenter.defaultCenter()
-                    let notif = NSNotification(name: PDFViewControllerPDFAvailableNotification, object: self)
-                    nc.postNotification(notif)
+                    let nc = NotificationCenter.default
+                    let notif = Notification(name: Notification.Name(rawValue: PDFViewControllerPDFAvailableNotification), object: self)
+                    nc.post(notif)
                 }
             }
         }
     }
     
-    func cachePDF(pdfData: NSData) -> Bool {
+    func cachePDF(_ pdfData: Data) -> Bool {
         return savePDFInTmp(pdfData)
     }
     
-    func getPDFFromTmp() -> NSData? {
+    func getPDFFromTmp() -> Data? {
         let path = "\(NSTemporaryDirectory())\(pdfPrefix)\(self.hashValue)"
-        let pdfData: NSData? = NSData(contentsOfFile: path)
+        let pdfData: Data? = try? Data(contentsOf: URL(fileURLWithPath: path))
         return pdfData
     }
     
-    func savePDFInTmp(pdfData: NSData) -> Bool {
+    func savePDFInTmp(_ pdfData: Data) -> Bool {
         let pdfFilePath = "\(NSTemporaryDirectory())\(pdfPrefix)\(self.hashValue)"
-        let bFlag = pdfData.writeToFile(pdfFilePath, atomically: true)
+        let bFlag = (try? pdfData.write(to: URL(fileURLWithPath: pdfFilePath), options: [.atomic])) != nil
         if (!bFlag) {
             print("PDF caching failed")
         }

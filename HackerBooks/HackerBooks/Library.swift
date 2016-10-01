@@ -20,7 +20,7 @@ class Library {
         self.books = Set()
         self.tags = Set()
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             do {
                 try self.createTheLibrary()
             } catch {
@@ -42,7 +42,7 @@ class Library {
         }
     }
     
-    func tagBy(name: String) -> Tag? {
+    func tagBy(_ name: String) -> Tag? {
         let aux = Tag(name: name)
         if tags.contains(aux) {
             return aux
@@ -51,28 +51,28 @@ class Library {
         }
     }
     
-    func bookCountForTag(tag: Tag?) -> Int {
+    func bookCountForTag(_ tag: Tag?) -> Int {
         guard let t = tag,
-            count = library[t]?.count else {
+            let count = library[t]?.count else {
                 return 0
         }
         return count
     }
     
-    func bookCountForTag(tagName: String) -> Int {
+    func bookCountForTag(_ tagName: String) -> Int {
         let tag = tagBy(tagName)
         return bookCountForTag(tag)
     }
 
-    func booksForTag(tag: Tag?) -> [Book]? {
+    func booksForTag(_ tag: Tag?) -> [Book]? {
         guard let t = tag,
-            books = library[t] else {
+            let books = library[t] else {
                 return nil
         }
         return arrayOfBooksSortedAlphabetically(books)
     }
 
-    func booksForTag(tagName: String) -> [Book]? {
+    func booksForTag(_ tagName: String) -> [Book]? {
         let tag = tagBy(tagName)
         return booksForTag(tag)
     }
@@ -94,9 +94,9 @@ class Library {
         return arrayOfBooks[index]
     }
 
-    func arrayOfBooksSortedAlphabetically(booksSet: BooksSet) -> [Book] {
+    func arrayOfBooksSortedAlphabetically(_ booksSet: BooksSet) -> [Book] {
         let bookArray = Array(booksSet)
-        let bookArraySorted = bookArray.sort()
+        let bookArraySorted = bookArray.sorted()
         return bookArraySorted
     }
     
@@ -135,9 +135,9 @@ class Library {
             }
             
             // Notificar a todo dios diciendo que tengo nueva librería
-            let nc = NSNotificationCenter.defaultCenter()
-            let notif = NSNotification(name: LibraryAvailableNotification, object: self, userInfo: [LibraryKey: self])
-            nc.postNotification(notif)
+            let nc = NotificationCenter.default
+            let notif = Notification(name: Notification.Name(rawValue: LibraryAvailableNotification), object: self, userInfo: [LibraryKey: self])
+            nc.post(notif)
         } catch {
             print("Error while creating the Library \(error)")
         }
@@ -169,7 +169,7 @@ class Library {
         }
     }
 
-    func refreshFavorites(book: Book) {
+    func refreshFavorites(_ book: Book) {
         var ft = tagBy(favoritesTag)
         if book.favorite {
             if ft == nil {

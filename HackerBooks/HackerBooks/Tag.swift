@@ -21,7 +21,7 @@ class Tag: Comparable, Hashable {
     //MARK: - Proxies
     var proxyForComparison: String {
         get {
-            return "\(name.uppercaseString)"
+            return "\(name.uppercased())"
         }
     }
     

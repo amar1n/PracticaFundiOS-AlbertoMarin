@@ -15,16 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     //MARK: - App life cycle
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         do {
             // Configuramos controladores, combinadores y sus delegados según el tipo de dispositivo
             let rootVC: UIViewController
-            switch UIDevice.currentDevice().userInterfaceIdiom {
-            case .Pad:
+            switch UIDevice.current.userInterfaceIdiom {
+            case .pad:
                 rootVC = rootViewControllerForPad()
-            case .Phone:
+            case .phone:
                 rootVC = rootViewControllerForPhone()
             default:
                 throw LibraryErrors.deviceNotSupported
@@ -43,16 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: - Memory
-    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         clearTmpDirectory()
     }
     
     func clearTmpDirectory() {
         do {
-            let tmpDirectory = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(NSTemporaryDirectory())
+            let tmpDirectory = try FileManager.default.contentsOfDirectory(atPath: NSTemporaryDirectory())
             for file in tmpDirectory {
                 let path = "\(NSTemporaryDirectory())\(file)"
-                try NSFileManager.defaultManager().removeItemAtPath(path)
+                try FileManager.default.removeItem(atPath: path)
             }
         } catch {
             print(error)
@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: - Universal
     func rootViewControllerForPad() -> UIViewController {
         // Controladores
-        let index = NSUserDefaults.standardUserDefaults().indexPathForKey(BookKey)
+        let index = UserDefaults.standard.indexPathForKey(BookKey)
         let libraryVC = LibraryViewController(model: nil, selectedRow: index, autoSelectRow: true)
         let libraryNav = UINavigationController(rootViewController: libraryVC)
         

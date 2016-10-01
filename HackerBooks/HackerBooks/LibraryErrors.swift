@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LibraryErrors : ErrorType {
+enum LibraryErrors : Error {
     case wrongURLFormatForJSONResource
     case resourcePointedByURLNotReachable
     case jsonParsingError

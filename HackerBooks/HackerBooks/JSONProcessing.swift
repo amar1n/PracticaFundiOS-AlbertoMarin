@@ -13,27 +13,27 @@ import UIKit
 func decode (book json: JSONDictionary) throws -> Book {
     var autores: [String]
     if let authorsString = json[authors] as? String {
-        autores = authorsString.componentsSeparatedByString(",")
+        autores = authorsString.components(separatedBy: ",")
     } else {
         throw LibraryErrors.wrongJSONFormat
     }
     
     guard let imageUrl = json[image_url] as? String,
-        coverUrl = NSURL(string: imageUrl)
+        let coverUrl = URL(string: imageUrl)
         else {
             throw LibraryErrors.wrongURLFormatForJSONResource
     }
     
     guard let pdfUrlString = json[pdf_url] as? String,
-        pdfUrl = NSURL(string: pdfUrlString)
+        let pdfUrl = URL(string: pdfUrlString)
         else {
             throw LibraryErrors.wrongURLFormatForJSONResource
     }
     
     var etiquetas = TagsSet()
     if let tagsString = json[tags] as? String {
-        let tagsArray = tagsString.componentsSeparatedByString(",")
-        let trimmedTagsArray = tagsArray.map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }
+        let tagsArray = tagsString.components(separatedBy: ",")
+        let trimmedTagsArray = tagsArray.map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
         for t in trimmedTagsArray {
             let tag: Tag = Tag(name: t)
             etiquetas.insert(tag)
@@ -51,7 +51,7 @@ func decode (book json: JSONDictionary) throws -> Book {
 }
 
 func decode (book json: JSONDictionary?) throws -> Book {
-    if case .Some(let jsonDict) = json {
+    if case .some(let jsonDict) = json {
         return try decode(book: jsonDict)
     } else {
         throw LibraryErrors.nilJSONObject
@@ -59,19 +59,19 @@ func decode (book json: JSONDictionary?) throws -> Book {
 }
 
 //MARK: - Loading
-func loadFrom(localFileName name: String, bundle: NSBundle = NSBundle.mainBundle()) throws -> JSONArray {
+func loadFrom(localFileName name: String, bundle: Bundle = Bundle.main) throws -> JSONArray {
     if let url = bundle.URLForResource(name),
-        data = NSData(contentsOfURL: url),
-        maybeArray = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? JSONArray,
-        array = maybeArray {
+        let data = try? Data(contentsOf: url),
+        let maybeArray = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? JSONArray,
+        let array = maybeArray {
         return array
     } else {
         throw LibraryErrors.jsonParsingError
     }
 }
 
-func loadFrom(remoteURL url: String, bundle: NSBundle = NSBundle.mainBundle()) throws -> JSONArray {
-    var libraryData: NSData? = getLibraryFromDocuments()
+func loadFrom(remoteURL url: String, bundle: Bundle = Bundle.main) throws -> JSONArray {
+    var libraryData: Data? = getLibraryFromDocuments()
     
     if libraryData == nil {
         // No está cacheado... hay que ir a buscarlo!!!
@@ -82,18 +82,18 @@ func loadFrom(remoteURL url: String, bundle: NSBundle = NSBundle.mainBundle()) t
         throw LibraryErrors.jsonParsingError
     }
     
-    let obj = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+    let obj = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
     
     if obj is JSONArray {
-        guard let maybeArray = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? JSONArray,
-            array = maybeArray else {
+        guard let maybeArray = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? JSONArray,
+            let array = maybeArray else {
                 throw LibraryErrors.jsonParsingError
         }
         saveInDocuments(theLibrary: array)
         return array
     } else if obj is JSONDictionary {
-        guard let maybeDictionary = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? JSONDictionary,
-            dictionary = maybeDictionary else {
+        guard let maybeDictionary = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? JSONDictionary,
+            let dictionary = maybeDictionary else {
                 throw LibraryErrors.jsonParsingError
         }
         let array: JSONArray = [dictionary]
@@ -104,38 +104,39 @@ func loadFrom(remoteURL url: String, bundle: NSBundle = NSBundle.mainBundle()) t
     }
 }
 
-func getLibraryFromDocuments() -> NSData? {
-    let fm = NSFileManager.defaultManager()
-    let urls = fm.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+func getLibraryFromDocuments() -> Data? {
+    let fm = FileManager.default
+    let urls = fm.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
     let documents = urls.last!
-    let jsonDocumentsPath = documents.URLByAppendingPathComponent(libraryjson)
+    let jsonDocumentsPath = documents.appendingPathComponent(libraryjson)
     
-    let jsonData: NSData? = NSData(contentsOfURL: jsonDocumentsPath)
+    let jsonData: Data? = try? Data(contentsOf: jsonDocumentsPath)
     return jsonData
 }
 
-func getLibraryFromRemote(remoteURL: String) throws -> NSData? {
-    guard let url = NSURL(string: remoteURL) else {
+func getLibraryFromRemote(_ remoteURL: String) throws -> Data? {
+    guard let url = URL(string: remoteURL) else {
         throw LibraryErrors.jsonParsingError
     }
-    return NSData(contentsOfURL: url)
+    return (try? Data(contentsOf: url))
 }
 
 func saveInDocuments(theLibrary array: JSONArray) {
-    var jsonData: NSData!
+    var jsonData: Data!
     do {
-        jsonData = try NSJSONSerialization.dataWithJSONObject(array, options: NSJSONWritingOptions())
+        jsonData = try JSONSerialization.data(withJSONObject: array, options: JSONSerialization.WritingOptions())
     } catch let error as NSError {
         print("Array to JSON conversion failed: \(error.localizedDescription)")
     }
     
-    let fm = NSFileManager.defaultManager()
-    let urls = fm.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+    let fm = FileManager.default
+    let urls = fm.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
     let urlDir = urls.last!
-    let jsonFilePath = urlDir.URLByAppendingPathComponent("library.json")
-    
-    let bFlag = jsonData.writeToURL(jsonFilePath, atomically: true)
-    if (!bFlag) {
-        print("JSON caching failed")
+    let jsonFilePath = urlDir.appendingPathComponent("library.json")
+
+    do {
+        try jsonData.write(to: jsonFilePath, options: .atomic)
+    } catch {
+        print(error)
     }
 }

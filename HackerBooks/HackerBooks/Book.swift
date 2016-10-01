@@ -14,11 +14,11 @@ class Book: Comparable, Hashable {
     let title: String
     let authors: [String]
     let tags: TagsSet
-    let pdfUrl: NSURL?
+    let pdfUrl: URL?
     let coverImage: AsyncImage
     
     //MARK: - Initialization
-    init(title: String, authors: [String], tags: TagsSet, pdfUrl: NSURL?, coverUrl: NSURL?){
+    init(title: String, authors: [String], tags: TagsSet, pdfUrl: URL?, coverUrl: URL?){
         self.title = title
         self.authors = authors
         self.tags = tags
@@ -29,7 +29,7 @@ class Book: Comparable, Hashable {
     //MARK: - Proxies
     var proxyForComparison: String {
         get {
-            return "\(title.uppercaseString)"
+            return "\(title.uppercased())"
         }
     }
     
@@ -49,28 +49,28 @@ class Book: Comparable, Hashable {
     //MARK: - Computed properties
     var favorite: Bool {
         set {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            var favoritesDict = userDefaults.objectForKey(favorites) as? [String: Bool] ?? [String: Bool]()
+            let userDefaults = UserDefaults.standard
+            var favoritesDict = userDefaults.object(forKey: favorites) as? [String: Bool] ?? [String: Bool]()
             if newValue {
                 favoritesDict.updateValue(newValue, forKey: "\(self.hashValue)")
             } else {
-                favoritesDict.removeValueForKey("\(self.hashValue)")
+                favoritesDict.removeValue(forKey: "\(self.hashValue)")
             }
             if favoritesDict.count == 0 {
-                userDefaults.removeObjectForKey(favorites)
+                userDefaults.removeObject(forKey: favorites)
             } else {
-                userDefaults.setObject(favoritesDict, forKey: favorites)
+                userDefaults.set(favoritesDict, forKey: favorites)
             }
             userDefaults.synchronize()
             
             // Notificar a todo dios diciendo que tengo nuevo status de favorito
-            let nc = NSNotificationCenter.defaultCenter()
-            let notif = NSNotification(name: FavoriteDidChangeNotification, object: self, userInfo: [BookKey: self])
-            nc.postNotification(notif)
+            let nc = NotificationCenter.default
+            let notif = Notification(name: Notification.Name(rawValue: FavoriteDidChangeNotification), object: self, userInfo: [BookKey: self])
+            nc.post(notif)
         }
         get {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            guard let favoritesDict = userDefaults.dictionaryForKey(favorites) else {
+            let userDefaults = UserDefaults.standard
+            guard let favoritesDict = userDefaults.dictionary(forKey: favorites) else {
                 return false
             }
             var bFlag = false

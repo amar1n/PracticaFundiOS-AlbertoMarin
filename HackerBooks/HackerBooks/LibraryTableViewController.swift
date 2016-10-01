@@ -13,11 +13,11 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
     //MARK: - Properties
     var model: Library?
     var delegate: LibraryTableViewControllerDelegate?
-    var selectedRow: NSIndexPath?
+    var selectedRow: IndexPath?
     var autoSelectRow: Bool
     
     //MARK: - Initialization
-    init(model: Library?, selectedRow: NSIndexPath?, autoSelectRow: Bool) {
+    init(model: Library?, selectedRow: IndexPath?, autoSelectRow: Bool) {
         if model == nil {
             self.model = Library()
         } else {
@@ -37,39 +37,39 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
     func syncModelWithView() {
         self.tableView.reloadData()
         if (self.autoSelectRow && self.selectedRow != nil) {
-            self.tableView.selectRowAtIndexPath(self.selectedRow, animated: false, scrollPosition: .Middle)
-            self.tableView(self.tableView, didSelectRowAtIndexPath: self.selectedRow!)
+            self.tableView.selectRow(at: self.selectedRow, animated: false, scrollPosition: .middle)
+            self.tableView(self.tableView, didSelectRowAt: self.selectedRow!)
         }
     }
     
     //MARK: - View life cycle
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Alta en notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(libraryDidChange), name: LibraryAvailableNotification, object: nil)
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(libraryDidChange), name: NSNotification.Name(rawValue: LibraryAvailableNotification), object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Baja en la notificacion
-        let nc = NSNotificationCenter.defaultCenter()
+        let nc = NotificationCenter.default
         nc.removeObserver(self)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if (autoSelectRow && selectedRow != nil) {
-            self.tableView.selectRowAtIndexPath(selectedRow, animated: false, scrollPosition: .Middle)
-            self.tableView(self.tableView, didSelectRowAtIndexPath: selectedRow!)
+            self.tableView.selectRow(at: selectedRow, animated: false, scrollPosition: .middle)
+            self.tableView(self.tableView, didSelectRowAt: selectedRow!)
         }
     }
     
     // MARK: - Table view delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Salvar el index seleccionado
-        NSUserDefaults.standardUserDefaults().setIndexPath(indexPath, forKey: BookKey)
+        UserDefaults.standard.setIndexPath(indexPath, forKey: BookKey)
         
         // Averiguar cual es el libro
         guard let theBook = book(forIndexPath: indexPath) else {
@@ -80,32 +80,32 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
         delegate?.libraryTableViewController(self, didSelectBook: theBook)
         
         // Enviamos la misma info via notificaciones
-        let nc = NSNotificationCenter.defaultCenter()
-        let notif = NSNotification(name: BookDidChangeNotification, object: self, userInfo: [BookKey: theBook])
-        nc.postNotification(notif)
+        let nc = NotificationCenter.default
+        let notif = Notification(name: Notification.Name(rawValue: BookDidChangeNotification), object: self, userInfo: [BookKey: theBook])
+        nc.post(notif)
     }
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         guard let theModel = model else {
             return 0
         }
         return theModel.tagsCount
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let theModel = model else {
             return 0
         }
         return theModel.bookCountForTag(getTag(forSection: section))
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Crear la celda
-        var cell = tableView.dequeueReusableCellWithIdentifier(BookCellId)
+        var cell = tableView.dequeueReusableCell(withIdentifier: BookCellId)
         if cell == nil {
             // El optional está vacía: hay que crearla a pelo
-            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: BookCellId)
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: BookCellId)
         }
         
         // Averiguar el libro
@@ -119,7 +119,7 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
         return cell!
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let tag = getTag(forSection: section) else {
             return nil
         }
@@ -132,20 +132,20 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
             return nil
         }
         let tagsArray = Array(theModel.tags)
-        let tagsArraySorted = tagsArray.sort()
+        let tagsArraySorted = tagsArray.sorted()
         return tagsArraySorted[section]
     }
     
-    func book(forIndexPath indexPath: NSIndexPath) -> Book? {
+    func book(forIndexPath indexPath: IndexPath) -> Book? {
         guard let theModel = self.model else {
             return nil
         }
-        return theModel.book(atIndex: indexPath.row, forTag: getTag(forSection: indexPath.section)!)!
+        return theModel.book(atIndex: (indexPath as NSIndexPath).row, forTag: getTag(forSection: (indexPath as NSIndexPath).section)!)!
     }
     
-    func libraryDidChange(notification: NSNotification) {
+    func libraryDidChange(_ notification: Notification) {
         // Sacar el userInfo
-        let info = notification.userInfo!
+        let info = (notification as NSNotification).userInfo!
         
         // Sacar la librería
         guard let library = info[LibraryKey] as? Library else {
@@ -157,27 +157,27 @@ class LibraryTableViewController: UITableViewController, LibraryTableViewControl
         
         // Inicializar y salvar el index seleccionado
         if model!.booksCount > 0 {
-            selectedRow = NSIndexPath(forRow: 0, inSection: 0)
-            NSUserDefaults.standardUserDefaults().setIndexPath(selectedRow!, forKey: BookKey)
+            selectedRow = IndexPath(row: 0, section: 0)
+            UserDefaults.standard.setIndexPath(selectedRow!, forKey: BookKey)
         }
         
         // Sincronizar las vistas
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.syncModelWithView()
         }
     }
     
     // MARK: - LibraryTableViewControllerDelegate
-    func setDelegate(delegate: LibraryTableViewControllerDelegate?) {
+    func setDelegate(_ delegate: LibraryTableViewControllerDelegate?) {
         self.delegate = delegate
     }
 
-    func libraryTableViewController(vc: LibraryTableViewController, didSelectBook book: Book) {
+    func libraryTableViewController(_ vc: LibraryTableViewController, didSelectBook book: Book) {
         let bookVC = BookViewController(model: book)
         navigationController?.pushViewController(bookVC, animated: true)
     }
 }
 
 protocol LibraryTableViewControllerDelegate {
-    func libraryTableViewController(vc: LibraryTableViewController, didSelectBook book: Book)
+    func libraryTableViewController(_ vc: LibraryTableViewController, didSelectBook book: Book)
 }

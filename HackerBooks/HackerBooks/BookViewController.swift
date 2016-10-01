@@ -34,8 +34,8 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
             return
         }
         
-        authorsView.text = "de \(theModel.authors.joinWithSeparator(", "))"
-        tagsView.text = "Etiquetas: \(theModel.tags.map({"\($0.name)"}).joinWithSeparator(", "))"
+        authorsView.text = "de \(theModel.authors.joined(separator: ", "))"
+        tagsView.text = "Etiquetas: \(theModel.tags.map({"\($0.name)"}).joined(separator: ", "))"
         coverView.image = theModel.coverImage.image
         title = theModel.title
         syncFavoriteTitle()
@@ -59,7 +59,7 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     }
 
     //MARK: - Actions
-    @IBAction func makeFavorite(sender: AnyObject) {
+    @IBAction func makeFavorite(_ sender: AnyObject) {
         guard let theModel = model else {
             return
         }
@@ -68,7 +68,7 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
         syncModelWithView()
     }
     
-    @IBAction func viewPdf(sender: AnyObject) {
+    @IBAction func viewPdf(_ sender: AnyObject) {
         guard let theModel = model else {
             return
         }
@@ -82,34 +82,34 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     }
     
     //MARK: - View life cycle
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Alta en notificacion
-        let nc = NSNotificationCenter.defaultCenter()
-        nc.addObserver(self, selector: #selector(imageDidChange), name: AsyncImageDidChangeNotification, object: nil)
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(imageDidChange), name: NSNotification.Name(rawValue: AsyncImageDidChangeNotification), object: nil)
         
         syncModelWithView()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Baja en la notificacion
-        let nc = NSNotificationCenter.defaultCenter()
+        let nc = NotificationCenter.default
         nc.removeObserver(self)
     }
     
     //MARK: - Utilities
-    func imageDidChange(notification: NSNotification) {
+    func imageDidChange(_ notification: Notification) {
         // Sincronizar las vistas
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.syncModelWithView()
         }
     }
     
     //MARK: - LibraryViewControllerDelegate
-    func libraryViewController(vc: LibraryViewController, didSelectBook book: Book) {
+    func libraryViewController(_ vc: LibraryViewController, didSelectBook book: Book) {
         // Actualizar el modelo
         model = book
         
@@ -118,11 +118,11 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     }
     
     //MARK: - UISplitViewControllerDelegate
-    func splitViewController(svc: UISplitViewController, willHideViewController aViewController: UIViewController, withBarButtonItem barButtonItem: UIBarButtonItem, forPopoverController pc: UIPopoverController) {
+    func splitViewController(_ svc: UISplitViewController, willHide aViewController: UIViewController, with barButtonItem: UIBarButtonItem, for pc: UIPopoverController) {
         self.navigationItem.rightBarButtonItem = barButtonItem;
     }
     
-    func splitViewController(svc: UISplitViewController, willShowViewController aViewController: UIViewController, invalidatingBarButtonItem barButtonItem: UIBarButtonItem) {
+    func splitViewController(_ svc: UISplitViewController, willShow aViewController: UIViewController, invalidating barButtonItem: UIBarButtonItem) {
         self.navigationItem.rightBarButtonItem = nil;
     }
 }

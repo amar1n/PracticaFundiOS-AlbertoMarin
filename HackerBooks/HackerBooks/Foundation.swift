@@ -8,27 +8,27 @@
 
 import Foundation
 
-extension NSBundle {
+extension Bundle {
     
-    func URLForResource(name: String?) -> NSURL? {
-        let components = name?.componentsSeparatedByString(".")
+    func URLForResource(_ name: String?) -> URL? {
+        let components = name?.components(separatedBy: ".")
         let fileTitle = components?.first
         let fileExtension = components?.last
         
-        return URLForResource(fileTitle, withExtension: fileExtension)
+        return url(forResource: fileTitle, withExtension: fileExtension)
     }
 }
 
-extension NSUserDefaults {
+extension UserDefaults {
     
-    func indexPathForKey(key: String) -> NSIndexPath? {
-        guard let indexArray = arrayForKey(key) as? [Int] else {
+    func indexPathForKey(_ key: String) -> IndexPath? {
+        guard let indexArray = array(forKey: key) as? [Int] else {
             return nil
         }
-        return NSIndexPath(forRow: indexArray[0], inSection: indexArray[1])
+        return IndexPath(row: indexArray[0], section: indexArray[1])
     }
     
-    func setIndexPath(indexPath: NSIndexPath, forKey key: String) {
-        setObject([indexPath.row, indexPath.section], forKey:key)
+    func setIndexPath(_ indexPath: IndexPath, forKey key: String) {
+        set([(indexPath as NSIndexPath).row, (indexPath as NSIndexPath).section], forKey:key)
     }
 }

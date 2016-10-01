@@ -13,11 +13,11 @@ class AsyncImage: Hashable {
     
     //MARK: - Stored properties
     let bookTitle: String
-    let remoteUrlImage: NSURL?
+    let remoteUrlImage: URL?
     let placeholderName: String
     
     //MARK: - Initialization
-    init(bookTitle: String, remoteUrlImage: NSURL?, placeholderName: String) {
+    init(bookTitle: String, remoteUrlImage: URL?, placeholderName: String) {
         self.bookTitle = bookTitle
         self.remoteUrlImage = remoteUrlImage
         self.placeholderName = placeholderName
@@ -35,39 +35,39 @@ class AsyncImage: Hashable {
     }
     
     //MARK: - Utilities
-    func getImageCached() -> NSData? {
+    func getImageCached() -> Data? {
         return getImageFromTmp()
     }
 
     func getRemoteImage() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             if let url = self.remoteUrlImage,
-                imageData = NSData(contentsOfURL: url) {
+                let imageData = try? Data(contentsOf: url) {
                 
                 let bFlag = self.cacheImage(imageData)
                 if (bFlag) {
                     // Notificar a todo dios diciendo que tengo nueva imagen
-                    let nc = NSNotificationCenter.defaultCenter()
-                    let notif = NSNotification(name: AsyncImageDidChangeNotification, object: self)
-                    nc.postNotification(notif)
+                    let nc = NotificationCenter.default
+                    let notif = Notification(name: Notification.Name(rawValue: AsyncImageDidChangeNotification), object: self)
+                    nc.post(notif)
                 }
             }
         }
     }
 
-    func cacheImage(imageData: NSData) -> Bool {
+    func cacheImage(_ imageData: Data) -> Bool {
         return saveImageInTmp(imageData)
     }
 
-    func getImageFromTmp() -> NSData? {
+    func getImageFromTmp() -> Data? {
         let path = "\(NSTemporaryDirectory())\(coverPrefix)\(self.hashValue)"
-        let imgData: NSData? = NSData(contentsOfFile: path)
+        let imgData: Data? = try? Data(contentsOf: URL(fileURLWithPath: path))
         return imgData
     }
     
-    func saveImageInTmp(imageData: NSData) -> Bool {
+    func saveImageInTmp(_ imageData: Data) -> Bool {
         let imageFilePath = "\(NSTemporaryDirectory())\(coverPrefix)\(self.hashValue)"
-        let bFlag = imageData.writeToFile(imageFilePath, atomically: true)
+        let bFlag = (try? imageData.write(to: URL(fileURLWithPath: imageFilePath), options: [.atomic])) != nil
         if (!bFlag) {
             print("Image caching failed")
         }
@@ -100,7 +100,7 @@ class AsyncImage: Hashable {
     //MARK: - Proxies
     var proxyForComparison: String {
         get {
-            return "\(bookTitle.uppercaseString)"
+            return "\(bookTitle.uppercased())"
         }
     }
     
